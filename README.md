@@ -15,7 +15,7 @@ It's a combination of using TestNG's @Test annotation on the class level and usi
 mvn test
 ```
 
-### Making test pass
+### Making test pass with maven-surefire-plugin version 2.14
 
 ```bash
 mvn -Dsurefire.version=2.14 test
