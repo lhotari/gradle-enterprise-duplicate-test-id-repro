@@ -89,7 +89,7 @@ Received a start event for 'DefaultTestDescriptor{id=3164034040858250684, surefi
 I was planning to debug the issue by first disabling forking. However, this caused the execution to hang.
 
 ```bash
-mvn -Dsurefire.forkCount=0 test
+mvn -DforkCount=0 test
 ```
 
 When triggering a thread dump with CTRL-\, it can be seen that the main thread is stuck waiting:
