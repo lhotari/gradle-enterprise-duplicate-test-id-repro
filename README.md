@@ -5,7 +5,25 @@ when maven-surefire-plugin version is <= 2.14 .
 
 Example build scan: https://scans.gradle.com/s/skpmqhfs446og/failure#1
 
-Error message
+The test class that reproduces the issue: [DuplicateTestIdIssueReproTest](src/test/java/org/example/DuplicateTestIdIssueReproTest.java)
+
+It's a combination of using TestNG's @Test annotation on the class level and using @Factory method on the constructor. In addition, it's necessary to have a public non-annotated method in the test class. 
+
+### Quick repro
+
+```bash
+git clone https://github.com/lhotari/gradle-enterprise-duplicate-test-id-repro
+cd gradle-enterprise-duplicate-test-id-repro
+mvn test
+```
+
+### Making test pass with maven-surefire-plugin version 2.14
+
+```bash
+mvn -Dsurefire.version=2.14 test
+```
+
+### Error message
 ```
 There was an error in the forked process	
 Received a start event for 'DefaultTestDescriptor{id=3164034040858250684, surefireForkId=1, name='org.example.DuplicateTestIdIssueReproTest', className='org.example.DuplicateTestIdIssueReproTest', parentId=3213794952218547303}' with duplicate id '3164034040858250684'.	
@@ -66,18 +84,3 @@ Received a start event for 'DefaultTestDescriptor{id=3164034040858250684, surefi
 ```
 
 
-The test class that reproduces the issue: [DuplicateTestIdIssueReproTest](src/test/java/org/example/DuplicateTestIdIssueReproTest.java)
-
-It's a combination of using TestNG's @Test annotation on the class level and using @Factory method on the constructor. In addition, it's necessary to have a public non-annotated method in the test class. 
-
-### Running
-
-```bash
-mvn test
-```
-
-### Making test pass with maven-surefire-plugin version 2.14
-
-```bash
-mvn -Dsurefire.version=2.14 test
-```
