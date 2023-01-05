@@ -32,6 +32,12 @@
       <version>7.7.0</version>
       <scope>test</scope>
     </dependency>
+    <!-- resolve ClassNotFoundException that TestNG spits out if SLF4J is missing -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.36</version>
+    </dependency>
   </dependencies>
 
 </project>
