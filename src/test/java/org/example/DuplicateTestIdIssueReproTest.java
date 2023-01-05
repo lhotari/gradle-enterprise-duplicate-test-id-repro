@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
  * the test method, and having an unannotated method and using @Factory annotation.
  */
 // this annotation triggers the issue
-@Test
+@Test(groups = "my-test-group")
 public class DuplicateTestIdIssueReproTest {
     @DataProvider(name = "mode")
     public static Object[][] mode() {
