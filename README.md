@@ -24,6 +24,39 @@ mvn -Dsurefire.version=2.14 test
 ```
 
 ### Error message
+
+in `target/surefire-reports/*-jvmRun1.dump` file
+```
+java.lang.IllegalArgumentException: Received a start event for 'DefaultTestDescriptor{id=3164034040858250684, surefireForkId=1, name='org.example.DuplicateTestIdIssueReproTest', className='org.example.DuplicateTestIdIssueReproTest', parentId=3213794952218547303}' with duplicate id '3164034040858250684'.
+	at com.gradle.maven.scan.extension.test.listener.c.a.a(SourceFile:29)
+	at com.gradle.maven.scan.extension.test.listener.testng.TestNGTestListener.a(SourceFile:378)
+	at com.gradle.maven.scan.extension.test.listener.testng.TestNGTestListener.onBeforeClass(SourceFile:241)
+	at org.testng.internal.invokers.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:169)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:122)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.testng.TestRunner.privateRun(TestRunner.java:829)
+	at org.testng.TestRunner.run(TestRunner.java:602)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:437)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:431)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:391)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:330)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1256)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1176)
+	at org.testng.TestNG.runSuites(TestNG.java:1099)
+	at org.testng.TestNG.run(TestNG.java:1067)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:135)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeSingleClass(TestNGDirectoryTestSuite.java:112)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:99)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:146)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:384)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:345)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:126)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:418)
+```
+
+in main console output
 ```
 There was an error in the forked process	
 Received a start event for 'DefaultTestDescriptor{id=3164034040858250684, surefireForkId=1, name='org.example.DuplicateTestIdIssueReproTest', className='org.example.DuplicateTestIdIssueReproTest', parentId=3213794952218547303}' with duplicate id '3164034040858250684'.	
@@ -150,4 +183,15 @@ When triggering a thread dump with CTRL-\, it can be seen that the main thread i
 	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:406)
 	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:347)
 ```
+
+### Debugging the issue
+
+Add a break point to `java.lang.IllegalArgumentException`
+
+Start with debugging
+```bash
+mvn -Dmaven.surefire.debug test 
+```
+
+Then connect with the debugger. The IllegalArgumentException break point should get a hit.
 
